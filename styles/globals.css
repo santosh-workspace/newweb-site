@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------- Tokens --------------------------------- */
+@layer base {
+  :root {
+    /* Font stacks (Fontsource variable fonts loaded in app/layout.tsx) */
+    --font-inter: "Inter Variable", system-ui, sans-serif;
+    --font-sora: "Sora Variable", system-ui, sans-serif;
+    --font-jetbrains: "JetBrains Mono Variable", ui-monospace, monospace;
+
+    /* Light theme */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --accent: 189 94% 43%;
+    --accent-foreground: 222 47% 11%;
+    --muted: 210 40% 93%;
+    --muted-foreground: 215 16% 40%;
+    --border: 214 32% 88%;
+    --input: 214 32% 88%;
+    --ring: 217 91% 60%;
+    --radius: 0.75rem;
+    --glow: 217 91% 60%;
+  }
+
+  .dark {
+    /* Deep navy dark theme (default) */
+    --background: 222 49% 8%; /* #0B1220 */
+    --foreground: 214 32% 91%;
+    --card: 221 44% 11%;
+    --card-foreground: 214 32% 91%;
+    --primary: 217 91% 60%; /* #3B82F6 */
+    --primary-foreground: 222 49% 8%;
+    --accent: 189 94% 43%; /* #06B6D4 */
+    --accent-foreground: 222 49% 8%;
+    --muted: 221 40% 14%;
+    --muted-foreground: 215 20% 60%;
+    --border: 220 36% 18%;
+    --input: 220 36% 18%;
+    --ring: 217 91% 60%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-muted;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/40;
+  }
+}
+
+/* -------------------------------- Utilities -------------------------------- */
+@layer utilities {
+  /* Glass surface */
+  .glass {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+  .light .glass,
+  :root:not(.dark) .glass {
+    @apply border-black/5 bg-white/70;
+  }
+
+  /* Gradient headline text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+    background-size: 200% auto;
+  }
+
+  /* Faint blueprint grid */
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(var(--primary) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Radial mask to fade grid edges */
+  .mask-radial {
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 40%, transparent 100%);
+  }
+
+  /* Card glow border on hover */
+  .glow-card {
+    position: relative;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .glow-card:hover {
+    border-color: hsl(var(--primary) / 0.45);
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.15),
+      0 20px 50px -20px hsl(var(--primary) / 0.35);
+  }
+
+  /* Shine sweep (certifications, logo) */
+  .shine-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine-sweep::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-150%) skewX(-20deg);
+    background: linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.08), transparent);
+    transition: transform 0.9s ease;
+  }
+  .shine-sweep:hover::after {
+    transform: translateX(150%) skewX(-20deg);
+  }
+
+  .pause-on-hover:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+}
+
+/* ------------------------- Reduced motion & cursor ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hide native cursor only when custom cursor is active (fine pointers) */
+@media (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active a,
+  body.custom-cursor-active button {
+    cursor: none;
+  }
+}

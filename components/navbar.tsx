@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Command } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { navLinks, site } from "@/lib/site";
+import { navLinks } from "@/lib/site";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { cn } from "@/lib/utils";
 
@@ -43,12 +43,8 @@ export function Navbar() {
         )}
       >
         <nav className="container flex items-center justify-between" aria-label="Primary">
-          <Link href="#" aria-label="Home" className="flex items-center gap-3">
+          <Link href="#" aria-label="Home" className="flex items-center">
             <Logo size={36} />
-            <span className="hidden font-display text-sm font-semibold tracking-wide sm:block">
-              {site.name.split(" ")[0]}
-              <span className="text-primary">.</span>
-            </span>
           </Link>
 
           {/* Desktop links */}
